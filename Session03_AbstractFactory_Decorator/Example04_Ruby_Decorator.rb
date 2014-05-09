@@ -35,7 +35,7 @@ end
 class Car
   include AbstractInterface
   attr_reader(:name, :description, :cost)
-end
+end 
 
 ########################
 # Classes
