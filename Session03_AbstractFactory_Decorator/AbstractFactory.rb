@@ -7,6 +7,10 @@ module AbstractInterface
   class InterfaceNotImplementedError < NoMethodError
   end
 
+  def initialize()
+    raise Exception.new("Cannot initialize an Animal abstract class")
+  end
+
   def self.included(klass)
     klass.send(:include, AbstractInterface::Methods)
     klass.send(:extend, AbstractInterface::Methods)
@@ -33,17 +37,16 @@ class ContinentAnimalFactory
   end
 end
 
+module AnimalInitialization
+  def initialize(name)
+    @name = name
+  end
+end
+
 class Animal
   include AbstractInterface
   
   attr_reader(:name)
-
-  def initialize()
-    if(self.class == Animal)
-      raise Exception.new("Cannot initialize an Animal abstract class")
-      @name = self.class.to_s
-    end
-  end
 
   def mate(otherAnimal)
     Animal.api_not_implemented(self)
@@ -81,11 +84,11 @@ class NorthAmericaAnimalFactory < ContinentAnimalFactory
   private
 
   class Wolf < Predator
-
+    include AnimalInitialization
   end
 
   class Bison < Herbrivore
-
+    include AnimalInitialization
   end
 end
 
@@ -97,11 +100,11 @@ class AfricaAnimalFactory < ContinentAnimalFactory
   private
 
   class Lion < Predator
-
+    include AnimalInitialization
   end
 
   class Wildebeest < Herbrivore
-
+    include AnimalInitialization
   end
 end
 
