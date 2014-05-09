@@ -38,11 +38,14 @@ class Animal
   
   attr_reader(:name)
 
-  def mate(otherAnimal)
-    Animal.api_not_implemented(self)
+  def initialize()
+    if(self.class == Animal)
+      raise Exception.new("Cannot initialize an Animal abstract class")
+      @name = self.class.to_s
+    end
   end
 
-  def evade(animal)
+  def mate(otherAnimal)
     Animal.api_not_implemented(self)
   end
 end
@@ -51,11 +54,19 @@ class Herbrivore < Animal
   def graze()
     Herbrivore.api_not_implemented(self)
   end
+
+  def evade(predator)
+    puts "#{@name} evads #{predator}"
+  end
 end
 
 class Predator < Animal
-  def Hunt(otherAnimal)
+  def hunt(otherAnimal)
     Herbrivore.api_not_implemented(self)
+  end
+
+  def eat(herbrivore)
+    puts "#{@name} eats #{herbrivore}"
   end
 end
 
@@ -105,12 +116,29 @@ def runFoodChain(country)
   if factory.is_a? NorthAmericaAnimalFactory
     wolf = factory.GetInstanceOfAnimal(:Wolf)
     bison = factory.GetInstanceOfAnimal(:Bison)
+
+    bison.graze();
+    bison.mate(bison);
+    bison.evade(wolf);
+    wolf.eat(bison);
+    wolf.mate(wolf);
+    wolf.hunt();
   elsif factory.is_a? AfricaAnimalFactory
     lion = factory.GetInstanceOfAnimal(:Lion)
     wildebeest = factory.GetInstanceOfAnimal(:Wildebeest)
 
+    wildebeest.graze();
+    wildebeest.mate(wildebeest);
+    wildebeest.evade(lion);
+    lion.eat(wildebeest);
+    lion.mate(lion);
+    lion.hunt();
   end
 end
+
+########################
+# Main
+########################
 
 runFoodChain(:NorthAmerica)
 runFoodChain(:Africa)
