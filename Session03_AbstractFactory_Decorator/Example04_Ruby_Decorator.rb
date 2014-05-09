@@ -29,7 +29,7 @@ end
 class Car
   include AbstractInterface
 
-  @@globalOptions = {
+  @@optionDecorators = {
     :wheels => {:cost => 12000.00, :desc => "4 wheels"},
     :doors => {:cost => 2000.00, :desc => "2 doors"},
     :ac => {:cost => 1500.00, :desc => "AC"},
@@ -44,7 +44,7 @@ class Car
   def cost
     cost = 0.0
     @options.each do |option|
-      cost += @@globalOptions[option][:cost]
+      cost += @@optionDecorators[option][:cost]
     end
 
     return cost
@@ -54,7 +54,7 @@ class Car
     description = "#{@name} with "
     listOfDescriptions = []
     @options.each do |option|
-      listOfDescriptions.push(@@globalOptions[option][:desc])
+      listOfDescriptions.push(@@optionDecorators[option][:desc])
     end
 
     description = description + listOfDescriptions.join(", ")
