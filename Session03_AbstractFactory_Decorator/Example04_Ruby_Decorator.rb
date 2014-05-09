@@ -53,11 +53,11 @@ class Car
   def description
     description = "#{@name} with "
     listOfDescriptions = []
-    options.each do |option|
-      listOfDescriptions.push(@@globalOptions[option])
+    @options.each do |option|
+      listOfDescriptions.push(@@globalOptions[option][:desc])
     end
 
-    description = description + listOfDescriptions.join(",")
+    description = description + listOfDescriptions.join(", ")
     return description
   end
 end 
@@ -92,7 +92,7 @@ class Performance < Car
   def initialize()
     @name = "Performance"
     @options = [:wheels, :doors, :ac, :sound, 
-      :navigation, :manual_transmission, :v8, :super_scharger]
+      :navigation, :manual_transmission, :v8, :super_charger]
   end
 end
 
@@ -102,6 +102,17 @@ end
 
 def demo()
   puts "<< Hello Decorator Problem >>"
+
+  mine = RunAbout.new()
+  yours = SUV.new()
+  hers = Status.new()
+  boss = Performance.new()
+
+  ours = [mine, yours, hers, boss]
+
+  ours.each do |car|
+    puts "#{car.description} costs $#{car.cost}0"
+  end
 end
 
 ########################
