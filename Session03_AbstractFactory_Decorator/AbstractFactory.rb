@@ -33,12 +33,12 @@ class ContinentAnimalFactory
   
   def GetInstanceOfAnimal(type)
     raise Exception.new("#{type} does not exist for #{self.class.name}") unless @validAnimals.include?(type)
-    return eval("#{self.class.to_s}::#{type.to_s}.new")
+    return eval("#{self.class.to_s}::#{type.to_s}.new('#{type.to_s}')")
   end
 end
 
 module AnimalInitialization
-  def initialize()
+  def initialize(name)
     @name = name
   end
 end
@@ -49,13 +49,17 @@ class Animal
   attr_reader(:name)
 
   def mate(otherAnimal)
-    Animal.api_not_implemented(self)
+    puts "More #{@name}"
+  end
+
+  def to_s()
+    return @name
   end
 end
 
 class Herbrivore < Animal
   def graze()
-    Herbrivore.api_not_implemented(self)
+    puts "Bigger #{@name}"
   end
 
   def evade(predator)
@@ -64,8 +68,8 @@ class Herbrivore < Animal
 end
 
 class Predator < Animal
-  def hunt(otherAnimal)
-    Herbrivore.api_not_implemented(self)
+  def hunt()
+    puts "Smaller #{@name}"
   end
 
   def eat(herbrivore)
