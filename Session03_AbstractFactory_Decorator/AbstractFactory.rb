@@ -1,5 +1,7 @@
-
+####################
 #Interface Classes
+####################
+
 #Borrowed from http://metabates.com/2011/02/07/building-interfaces-and-abstract-classes-in-ruby/
 module AbstractInterface
   class InterfaceNotImplementedError < NoMethodError
@@ -20,13 +22,14 @@ module AbstractInterface
   end
 end
 
-class Continent
+class ContinentAnimalFactory
   include AbstractInterface
   
   attr_reader(:validAnimals)
   
   def GetInstanceOfAnimal(type)
-    Continent.api_not_implemented(self)
+    raise Exception.new("#{type} does not exist for #{self.class.name}") unless @validAnimals.include?(type)
+    return eval("#{self.to_s}::#{type.to_s}.new")
   end
 end
 
@@ -39,7 +42,7 @@ class Animal
     Animal.api_not_implemented(self)
   end
 
-  def eat()
+  def evade(animal)
     Animal.api_not_implemented(self)
   end
 end
@@ -56,4 +59,58 @@ class Predator < Animal
   end
 end
 
-puts "Hello Abstract Factory"
+########################
+# Classes
+########################
+class NorthAmericaAnimalFactory < ContinentAnimalFactory
+  def initialize()
+    @validAnimals = [:Bison, :Wolf]
+  end
+
+  private
+
+  class Wolf < Predator
+
+  end
+
+  class Bison < Herbrivore
+
+  end
+end
+
+class AfricaAnimalFactory < ContinentAnimalFactory
+  def initialize()
+    @validAnimals = [:Lion, :Wildebeest]
+  end
+
+  private
+
+  class Lion < Predator
+
+  end
+
+  class Wildebeest < Herbrivore
+
+  end
+end
+
+########################
+# Methods
+########################
+
+def runFoodChain(country)
+  #Get the factory
+  factory = eval(country.to_s + "AnimalFactory.new()")
+
+  if factory.is_a? NorthAmericaAnimalFactory
+    wolf = factory.GetInstanceOfAnimal(:Wolf)
+    bison = factory.GetInstanceOfAnimal(:Bison)
+  elsif factory.is_a? AfricaAnimalFactory
+    lion = factory.GetInstanceOfAnimal(:Lion)
+    wildebeest = factory.GetInstanceOfAnimal(:Wildebeest)
+
+  end
+end
+
+runFoodChain(:NorthAmerica)
+runFoodChain(:Africa)
