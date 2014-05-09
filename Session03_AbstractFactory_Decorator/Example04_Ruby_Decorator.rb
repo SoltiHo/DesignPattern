@@ -8,7 +8,7 @@ module AbstractInterface
   end
 
   def initialize()
-    raise Exception.new("Cannot initialize an Animal abstract class")
+    raise Exception.new("Cannot initialize an abstract class")
   end
 
   def self.included(klass)
