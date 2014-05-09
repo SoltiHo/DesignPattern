@@ -33,12 +33,12 @@ class ContinentAnimalFactory
   
   def GetInstanceOfAnimal(type)
     raise Exception.new("#{type} does not exist for #{self.class.name}") unless @validAnimals.include?(type)
-    return eval("#{self.to_s}::#{type.to_s}.new")
+    return eval("#{self.class.to_s}::#{type.to_s}.new")
   end
 end
 
 module AnimalInitialization
-  def initialize(name)
+  def initialize()
     @name = name
   end
 end
