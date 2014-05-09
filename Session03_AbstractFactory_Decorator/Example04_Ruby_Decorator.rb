@@ -26,15 +26,24 @@ module AbstractInterface
   end
 end
 
+module InitializeCar
+  def initialize(name)
+    @name = name
+  end
+end
+
+class Car
+  include AbstractInterface
+  attr_reader(:name, :description, :cost)
+end
+
 ########################
 # Classes
 ########################
 
-
 ########################
 # Methods
 ########################
-
 
 ########################
 # Main
