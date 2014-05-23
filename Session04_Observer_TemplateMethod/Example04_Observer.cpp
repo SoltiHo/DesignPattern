@@ -8,6 +8,11 @@ using namespace std;
 * In addition, Subject is managing multiple objects, of multiple classes, with multiple
 * interfaces, which leads to long, hard to follow code.
 * Use the Observer pattern to decouple the Subject class from the others.
+*
+* P.S. The “delete” in event 2 and 3 are not the results of “notify”.   They are just something happened in between “events” affecting # of observers and therefore notification list.
+* 
+* Bonus question: The order of observers' action could be required to be in exact order of the procedural code, be random, or be the order of registration.  
+*                 Implement some variation of the pattern to have the flexibility.
 */
 
 namespace ripples {
