@@ -18,12 +18,15 @@
     <ClCompile Include="strategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lab1_Strategy_ULT.cpp">
+    <ClCompile Include="MyStrategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lab1_problem_strategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lab1_solution_strategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4632071C-2E93-49BB-8B31-518EF28D7ED7}</ProjectGuid>
+    <ProjectGuid>{31DAF2EB-10AB-4032-B044-1EB8E3BF7CD7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Strategy</RootNamespace>
+    <RootNamespace>Facade</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -78,12 +78,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="lab1_problem_strategy.h" />
-    <ClInclude Include="lab1_solution_strategy.h" />
+    <ClInclude Include="lab2_problem_facade.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyStrategy.cpp" />
-    <ClCompile Include="strategy.cpp" />
+    <ClCompile Include="facade.cpp" />
+    <ClCompile Include="MyFacade.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

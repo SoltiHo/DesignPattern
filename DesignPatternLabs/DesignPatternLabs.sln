@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adapter", "Adapter\Adapter.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Strategy", "Strategy\Strategy.vcxproj", "{4632071C-2E93-49BB-8B31-518EF28D7ED7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Facade", "Facade\Facade.vcxproj", "{31DAF2EB-10AB-4032-B044-1EB8E3BF7CD7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TemplateMethod", "TemplateMethod\TemplateMethod.vcxproj", "{E981CE00-7FFA-46F8-BDBB-78DD76CA3F97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +25,14 @@ Global
 		{4632071C-2E93-49BB-8B31-518EF28D7ED7}.Debug|Win32.Build.0 = Debug|Win32
 		{4632071C-2E93-49BB-8B31-518EF28D7ED7}.Release|Win32.ActiveCfg = Release|Win32
 		{4632071C-2E93-49BB-8B31-518EF28D7ED7}.Release|Win32.Build.0 = Release|Win32
+		{31DAF2EB-10AB-4032-B044-1EB8E3BF7CD7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{31DAF2EB-10AB-4032-B044-1EB8E3BF7CD7}.Debug|Win32.Build.0 = Debug|Win32
+		{31DAF2EB-10AB-4032-B044-1EB8E3BF7CD7}.Release|Win32.ActiveCfg = Release|Win32
+		{31DAF2EB-10AB-4032-B044-1EB8E3BF7CD7}.Release|Win32.Build.0 = Release|Win32
+		{E981CE00-7FFA-46F8-BDBB-78DD76CA3F97}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E981CE00-7FFA-46F8-BDBB-78DD76CA3F97}.Debug|Win32.Build.0 = Debug|Win32
+		{E981CE00-7FFA-46F8-BDBB-78DD76CA3F97}.Release|Win32.ActiveCfg = Release|Win32
+		{E981CE00-7FFA-46F8-BDBB-78DD76CA3F97}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

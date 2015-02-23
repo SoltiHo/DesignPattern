@@ -38,169 +38,94 @@
 
 class ShapeInterfaceDraw {					// Interface class (home grown?).
 public:
-	virtual void draw()=0;
-	virtual ~ShapeInterfaceDraw() {}
+    virtual void draw() = 0;
+    virtual ~ShapeInterfaceDraw() {}
 };
 class Point : public ShapeInterfaceDraw {
 public:
-	void draw() { std::cout << "Draw point.\n";}
+    void draw() { std::cout << "Draw point.\n"; }
 };
 class Line : public ShapeInterfaceDraw {
 public:
-	void draw() { std::cout << "Draw line.\n"; }
+    void draw() { std::cout << "Draw line.\n"; }
 };
 class Rect : public ShapeInterfaceDraw {
 public:
-	void draw() { std::cout << "Draw rectangle.\n"; }
+    void draw() { std::cout << "Draw rectangle.\n"; }
 };
 
 namespace commercial {
 
-class ShapeInterfaceDisplay {				// Another interface class (commercial?).
-public:
-	virtual void display()=0;
-	virtual ~ShapeInterfaceDisplay() {}
-};
-class Polygon : public ShapeInterfaceDisplay {
-public:
-	void display() { std::cout << "Display polygon.\n";}
-};
-class Torus : public ShapeInterfaceDisplay {
-public:
-	void display() { std::cout << "Display torus.\n";}
-};
-class Bezel : public ShapeInterfaceDisplay {
-public:
-	void display() { std::cout << "Display bezel.\n";}
-};
+    class ShapeInterfaceDisplay {				// Another interface class (commercial?).
+    public:
+        virtual void display() = 0;
+        virtual ~ShapeInterfaceDisplay() {}
+    };
+    class Polygon : public ShapeInterfaceDisplay {
+    public:
+        void display() { std::cout << "Display polygon.\n"; }
+    };
+    class Torus : public ShapeInterfaceDisplay {
+    public:
+        void display() { std::cout << "Display torus.\n"; }
+    };
+    class Bezel : public ShapeInterfaceDisplay {
+    public:
+        void display() { std::cout << "Display bezel.\n"; }
+    };
 
 }
 
 namespace adapter_legacy {
 
-void demo() {
-	std::vector<ShapeInterfaceDraw*> shapes;
-	shapes.push_back(new Point);
-	shapes.push_back(new Line);
-	shapes.push_back(new Rect);
+    void demo() {
+        std::vector<ShapeInterfaceDraw*> shapes;
+        shapes.push_back(new Point);
+        shapes.push_back(new Line);
+        shapes.push_back(new Rect);
 
-	for(size_t i=0; i<shapes.size(); i++) {	// Polymorphic client code.
-		shapes[i]->draw();
-	}
+        for (size_t i = 0; i < shapes.size(); i++) {	// Polymorphic client code.
+            shapes[i]->draw();
+        }
 
-	std::cout << std::endl;
-}
+        std::cout << std::endl;
+    }
 
 }
 
 namespace adapter_problem {
 
-struct Shapes {
-	ShapeInterfaceDraw*	draw;
-	commercial::ShapeInterfaceDisplay*	display;
-	Shapes(
-		ShapeInterfaceDraw* draw=0,
-		commercial::ShapeInterfaceDisplay* display=0)
-		: draw(draw), display(display) {}
-};
-
-void demo() {
-	std::vector<Shapes*>	shapes;					// Changes to existing code.
-	shapes.push_back(new Shapes(new Point));
-	shapes.push_back(new Shapes(new Line));
-	shapes.push_back(new Shapes(new Rect));
-	shapes.push_back(new Shapes(0, new commercial::Polygon));
-	shapes.push_back(new Shapes(0, new commercial::Torus));
-	shapes.push_back(new Shapes(0, new commercial::Bezel));
-
-	for(size_t i=0; i<shapes.size(); i++) {	// Client code more complicated
-		if(shapes[i]->draw)					// because API's differ
-			shapes[i]->draw->draw();		// requiring if-else statements,
-		else if(shapes[i]->display)			// changes to existing client code,
-			shapes[i]->display->display();
-		else {
-			throw "unknown shape object.";	// and worse; error detection.
-		}
-	}
-
-	std::cout << std::endl;
-}
-
-}
-
-namespace adapter_adapter1{
-    // added code
-    //    - simple wrapper implementation
-    class ShapeDisplayWrapper : public ShapeInterfaceDraw {
-    public:
-        ShapeDisplayWrapper(commercial::ShapeInterfaceDisplay* pObj) : pDisplayObj(pObj) {};
-        ~ShapeDisplayWrapper() { delete pDisplayObj; }
-        commercial::ShapeInterfaceDisplay* pDisplayObj;
-        virtual void draw() { this->pDisplayObj->display(); }
+    struct Shapes {
+        ShapeInterfaceDraw*	draw;
+        commercial::ShapeInterfaceDisplay*	display;
+        Shapes(
+            ShapeInterfaceDraw* draw = 0,
+            commercial::ShapeInterfaceDisplay* display = 0)
+            : draw(draw), display(display) {}
     };
 
-    // how clients use
-    //     - need to handle native shapes and commercial shapes differently
     void demo() {
-        std::vector<ShapeInterfaceDraw*> shapes;
-        shapes.push_back(new Point);
-        shapes.push_back(new Line);
-        shapes.push_back(new Rect);
-        shapes.push_back(new ShapeDisplayWrapper(new commercial::Polygon));
-        shapes.push_back(new ShapeDisplayWrapper(new commercial::Torus));
-        shapes.push_back(new ShapeDisplayWrapper(new commercial::Bezel));
+        std::vector<Shapes*>	shapes;					// Changes to existing code.
+        shapes.push_back(new Shapes(new Point));
+        shapes.push_back(new Shapes(new Line));
+        shapes.push_back(new Shapes(new Rect));
+        shapes.push_back(new Shapes(0, new commercial::Polygon));
+        shapes.push_back(new Shapes(0, new commercial::Torus));
+        shapes.push_back(new Shapes(0, new commercial::Bezel));
 
-        for (size_t i = 0; i<shapes.size(); i++) {	// Polymorphic client code.
-            shapes[i]->draw();
-        }
-
-        std::cout << std::endl;
-    }
-}
-
-namespace adapter_adapter2 {
-    // added code
-    //     - need to have an implementation of each shape reused from commercial
-    class Polygon : public ShapeInterfaceDraw{
-    public:
-        Polygon() : pDisplayObj(new commercial::Polygon){};
-        commercial::ShapeInterfaceDisplay* pDisplayObj;
-        void draw() { this->pDisplayObj->display(); }
-    };
-
-    class Torus : public ShapeInterfaceDraw{
-    public:
-        Torus() : pDisplayObj(new commercial::Torus){};
-        commercial::ShapeInterfaceDisplay* pDisplayObj;
-        void draw() { this->pDisplayObj->display(); }
-    };
-
-    class Bezel : public ShapeInterfaceDraw{
-    public:
-        Bezel() : pDisplayObj(new commercial::Bezel){};
-        commercial::ShapeInterfaceDisplay* pDisplayObj;
-        void draw() { this->pDisplayObj->display(); }
-    };
-
-
-    // how clients use
-    //   - uniform interface
-    //   - unaware of what's being imported
-    void demo() {
-        std::vector<ShapeInterfaceDraw*> shapes;
-        shapes.push_back(new Point);
-        shapes.push_back(new Line);
-        shapes.push_back(new Rect);
-        shapes.push_back(new Polygon);
-        shapes.push_back(new Torus);
-        shapes.push_back(new Bezel);
-
-        for (size_t i = 0; i<shapes.size(); i++) {	// Polymorphic client code.
-            shapes[i]->draw();
+        for (size_t i = 0; i < shapes.size(); i++) {	// Client code more complicated
+            if (shapes[i]->draw)					// because API's differ
+                shapes[i]->draw->draw();		// requiring if-else statements,
+            else if (shapes[i]->display)			// changes to existing client code,
+                shapes[i]->display->display();
+            else {
+                throw "unknown shape object.";	// and worse; error detection.
+            }
         }
 
         std::cout << std::endl;
     }
 
 }
+
 #endif /* ADAPTER_H_ */

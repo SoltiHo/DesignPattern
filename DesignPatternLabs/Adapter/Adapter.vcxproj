@@ -79,10 +79,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="adapter.cpp" />
-    <ClCompile Include="Lab1_Adapter_ULT.cpp" />
+    <ClCompile Include="MyAdapter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lab1_problem_adapter.h" />
+    <ClInclude Include="lab1_solution_adapter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
