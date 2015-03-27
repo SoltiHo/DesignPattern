@@ -81,6 +81,7 @@
     <ClInclude Include="lab4_problem_observer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MyObserver.cpp" />
     <ClCompile Include="observer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
