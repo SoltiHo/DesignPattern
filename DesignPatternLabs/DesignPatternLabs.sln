@@ -19,6 +19,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChainOfResponsibility", "Ch
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Observer", "Observer\Observer.vcxproj", "{CC8B8B6F-3131-4E91-A3C6-F25F9B61E756}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bridge", "Bridge\Bridge.vcxproj", "{AA5B6FFF-003F-4FF3-BEF9-47FF7C81F3F6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AbstractFactory", "AbstractFactory\AbstractFactory.vcxproj", "{25795C92-2452-4672-80AE-EFB170AD1BBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -57,6 +61,14 @@ Global
 		{CC8B8B6F-3131-4E91-A3C6-F25F9B61E756}.Debug|Win32.Build.0 = Debug|Win32
 		{CC8B8B6F-3131-4E91-A3C6-F25F9B61E756}.Release|Win32.ActiveCfg = Release|Win32
 		{CC8B8B6F-3131-4E91-A3C6-F25F9B61E756}.Release|Win32.Build.0 = Release|Win32
+		{AA5B6FFF-003F-4FF3-BEF9-47FF7C81F3F6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AA5B6FFF-003F-4FF3-BEF9-47FF7C81F3F6}.Debug|Win32.Build.0 = Debug|Win32
+		{AA5B6FFF-003F-4FF3-BEF9-47FF7C81F3F6}.Release|Win32.ActiveCfg = Release|Win32
+		{AA5B6FFF-003F-4FF3-BEF9-47FF7C81F3F6}.Release|Win32.Build.0 = Release|Win32
+		{25795C92-2452-4672-80AE-EFB170AD1BBF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{25795C92-2452-4672-80AE-EFB170AD1BBF}.Debug|Win32.Build.0 = Debug|Win32
+		{25795C92-2452-4672-80AE-EFB170AD1BBF}.Release|Win32.ActiveCfg = Release|Win32
+		{25795C92-2452-4672-80AE-EFB170AD1BBF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

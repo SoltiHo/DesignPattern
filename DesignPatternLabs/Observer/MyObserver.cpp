@@ -83,7 +83,7 @@ namespace observer {
         ChildAdapter* girl = new ChildAdapter("Girl");
         MomAdapter*	  mom = new MomAdapter;
 
-        // Event 1.
+        // Event 1.  attach and detach can be in constructor/destructor
         c.attach(thing1);
         c.attach(thing2);
         c.attach(boy);
