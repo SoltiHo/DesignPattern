@@ -1,0 +1,13 @@
+7:
+	orderNum	= 7
+	comment		= New Specs: next singles, or last.
+	size		= 100000
+	packager	= ZipLock
+	plastic		= Nylon66
+	moldLoc		= purchase
+	mold		= dino
+	finish		= sanded
+	color		= violet
+	stuffer		= Popcorn
+	address		= Anytown, CA
+	endOfOrder

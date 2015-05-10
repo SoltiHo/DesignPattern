@@ -111,15 +111,6 @@ namespace final_design_file {
         private:
             legacy_classes::PETCleanup pet;
         };
-
-        class SynthesisCleaner : public Cleaner{
-        public:
-            SynthesisCleaner() : Cleaner("SynthesisCleaner"){}
-            virtual ~SynthesisCleaner(){ INSTRUMENT_DTOR }
-            virtual void clean(){
-                cout << "    Clean synthetic mold: ozone wash.\n";
-            };
-        };
     }
 
     namespace strategy {		// DP 1.
@@ -147,7 +138,7 @@ namespace final_design_file {
             virtual ~ABS(){ INSTRUMENT_DTOR }
         private:
             virtual void inject(){
-                cout << "      Close - heat to 440 - inject at 125 PSI - cool to 360 - separate - progressive eject." << endl;
+                cout << "Close - heat to 440 - inject at 125 PSI - cool to 360 - separate - progressive eject." << endl;
             }
         };
         class Poly : public InjectionProcess {
@@ -156,7 +147,7 @@ namespace final_design_file {
             virtual ~Poly(){ INSTRUMENT_DTOR }
         private:
             virtual void inject(){
-                cout << "      Close - heat to 350 - inject at  90 PSI - cool to 290 - separate - smooth eject." << endl;
+                cout << "Close - heat to 350 - inject at  90 PSI - cool to 290 - separate - smooth eject." << endl;
             }
         };
         class PET : public InjectionProcess {
@@ -165,19 +156,10 @@ namespace final_design_file {
             virtual ~PET(){ INSTRUMENT_DTOR }
         private:
             virtual void inject(){
-                cout << "      Close - heat to 404 - inject at 110 PSI - cool to 340 - separate - smooth eject." << endl;
+                cout << "Close - heat to 404 - inject at 110 PSI - cool to 340 - separate - smooth eject." << endl;
             }
         };
         // Seam point - add another algorithm.
-        class Synthetics : public InjectionProcess {
-        public:
-            Synthetics(int run) : InjectionProcess("Synthetics", run){}
-            virtual ~Synthetics(){ INSTRUMENT_DTOR }
-        private:
-            virtual void inject(){
-                cout << "      Close - heat to 480 - inject at 150 PSI - cool to 390 - separate - shock eject." << endl;
-            }
-        };
     }
 
     namespace observer {		// DP 7.
@@ -244,11 +226,6 @@ namespace final_design_file {
             HardPack() : Packager("HardPack"){}
             virtual ~HardPack(){ INSTRUMENT_DTOR }
         };
-        class ZipLock : public Packager {
-        public:
-            ZipLock() : Packager("ZipLock"){}
-            virtual ~ZipLock(){ INSTRUMENT_DTOR }
-        };
         // Seam point - add another class.
 
         // create packager
@@ -262,71 +239,11 @@ namespace final_design_file {
             else if (order["packager"] == "HardPack"){
                 return new HardPack;
             }
-            else if (order["packager"] == "ZipLock"){
-                return new ZipLock;
-            }
             else{
                 cout << "  <>Unknown packager |" << order["packager"] << "| defaulting to Bulk packager.\n";
                 return new Bulk;
             }
         }
-
-
-
-        class Stuffer : public OriginOfEverything, public observer::Observer{
-        public:
-            Stuffer(string n) : OriginOfEverything(n){}
-            virtual ~Stuffer(){}
-            virtual string getStuffing() = 0;
-            static Stuffer* createStuffer(map<string, string>& order);
-            virtual void update(observer::Subject* pSubject){
-                cout << "        Stuffer filling " << pSubject->getState() << " package bin with " << getStuffing() << " stuffing." << endl;
-            }
-        };
-        class Air : public Stuffer {
-        public:
-            Air() : Stuffer("Air"){}
-            virtual ~Air(){ INSTRUMENT_DTOR }
-            virtual string getStuffing(){ return "air"; }
-        };
-        class Popcorn : public Stuffer {
-        public:
-            Popcorn() : Stuffer("Popcorn"){}
-            virtual ~Popcorn(){ INSTRUMENT_DTOR }
-            virtual string getStuffing(){ return "styrene popcorn"; }
-        };
-        class BubbleWrap : public Stuffer {
-        public:
-            BubbleWrap() : Stuffer("BubbleWrap"){}
-            virtual ~BubbleWrap(){ INSTRUMENT_DTOR }
-            virtual string getStuffing(){ return "bubble wrap"; }
-        };
-        class Foam : public Stuffer {
-        public:
-            Foam() : Stuffer("Foam"){}
-            virtual ~Foam(){ INSTRUMENT_DTOR }
-            virtual string getStuffing(){ return "expanding foam"; }
-        };
-
-        Stuffer* Stuffer::createStuffer(map<string, string>& order){
-            if (order["stuffer"] == "Air"){
-                return new Air;
-            }
-            else if (order["stuffer"] == "Popcorn"){
-                return new Popcorn;
-            }
-            else if (order["stuffer"] == "BubbleWrap"){
-                return new BubbleWrap;
-            }
-            else if (order["stuffer"] == "Foam"){
-                return new Foam;
-            }
-            else{
-                cout << "  <>Unknown stuffer |" << order["stuffer"] << "| defaulting to Air stuffer.\n";
-                return new Air;
-            }
-        }
-
     }
     namespace bridge {			// DP 9.
         // Milling Ops:
@@ -356,21 +273,12 @@ namespace final_design_file {
             };
         };
         // Seam Point - add another implementation.
-        class Diamond_tipped : public Tool {
-        public:
-            Diamond_tipped() : Tool("Diamond_tipped") {}
-            virtual ~Diamond_tipped(){ INSTRUMENT_DTOR }
-            virtual string operate(){
-                return "(precision drill, oil cooled cut, and cartoid grind)";
-            };
-        };
 
 
         // Shapes:
         //     duck (35 cc)
         //     car (40 cc)
         //     hero (50 cc)
-        //     dino (30 cc)  (new)
         class Duck; class Car; class Hero;
         class Shape : public OriginOfEverything {
         public:
@@ -405,11 +313,6 @@ namespace final_design_file {
             virtual ~Hero(){ INSTRUMENT_DTOR }
         };
         // Seam Point - add another abstraction.
-        class Dino : public Shape{
-        public:
-            Dino(Tool* t) : Shape("Dino", t, 30) {}
-            virtual ~Dino(){ INSTRUMENT_DTOR }
-        };
     }
     namespace abstract_factory {// DP 10.
 
@@ -428,9 +331,6 @@ namespace final_design_file {
         //     10,000 - IJM_110
         //     20,000 - IJM_120
         //     50,000 - IJM_210
-        //     40, 000 - IJM_140 (new)
-        //     100, 000 - IJM_220 (new)
-        //     200, 000 - IJM_240 (new)
         class IJM : public OriginOfEverything, public observer::Observer{
         public:
             IJM(string n) : OriginOfEverything(n){}
@@ -455,29 +355,10 @@ namespace final_design_file {
             virtual ~IJM_210(){ INSTRUMENT_DTOR }
         };
 
-        class IJM_140 : public IJM {
-        public:
-            IJM_140() : IJM("IJM_140"){}
-            virtual ~IJM_140(){ INSTRUMENT_DTOR }
-        };
-        class IJM_220 : public IJM {
-        public:
-            IJM_220() : IJM("IJM_220"){}
-            virtual ~IJM_220(){ INSTRUMENT_DTOR }
-        };
-        class IJM_240 : public IJM {
-        public:
-            IJM_240() : IJM("IJM_240"){}
-            virtual ~IJM_240(){ INSTRUMENT_DTOR }
-        };
-
         // Conveyer belts:
         //     10,000 - Linear
         //     20,000 - Y-split
         //     50,000 - Linear
-        //     40, 000 - V - level  (new)
-        //     100, 000 - Y - split  (new)
-        //     200, 000 - V - level  (new)
         class ConveyerBelt : public OriginOfEverything, public observer::Observer{
         public:
             ConveyerBelt(string n) : OriginOfEverything(n){}
@@ -496,20 +377,11 @@ namespace final_design_file {
             Y_Split() : ConveyerBelt("Y-Split"){}
             virtual ~Y_Split(){ INSTRUMENT_DTOR }
         };
-        class V_Level : public ConveyerBelt{
-        public:
-            V_Level() : ConveyerBelt("V-Level"){}
-            virtual ~V_Level(){ INSTRUMENT_DTOR }
-        };
-
 
         // Package bins:
         //     10,000 - Cardboard box
         //     20,000 - Cardboard box
         //     50,000 - Pallot box
-        //     40,000 - Pallot box  (new)
-        //     100, 000 - Crate  (new)
-        //     200, 000 - Crate  (new)
         class PackageBin : public OriginOfEverything, public observer::Subject{
         public:
             PackageBin(string n) : OriginOfEverything(n){}
@@ -519,7 +391,7 @@ namespace final_design_file {
             };
 
             void notifyFull(){
-                cout << "      " << this->name << " package bin full..." << endl;
+                cout << this->name << " package bin full..." << endl;
                 this->notify();
             }
         };
@@ -533,59 +405,38 @@ namespace final_design_file {
             PallotBox() : PackageBin("PallotBox"){}
             virtual ~PallotBox(){ INSTRUMENT_DTOR }
         };
-        class Crate : public PackageBin{
-        public:
-            Crate() : PackageBin("Crate"){}
-            virtual ~Crate(){ INSTRUMENT_DTOR }
-        };
 
         // Mold metal & cavites:
         //      10,000 - Aluminum(1)
         //      20,000 - Aluminum(2)
         //      50,000 - Steel(1)
-        //      40, 000 - Aluminum(4)  (new)
-        //      100, 000 - Steel(2)  (new)
-        //      200, 000 - Steel(4)  (new)
         class Mold : public OriginOfEverything{
         public:
             Mold(string n, int c = 1) : OriginOfEverything(n), cavity(c) {}
             virtual ~Mold(){}
             int cavity;
-            virtual bridge::Tool* generateTool(string finish = "") = 0;
+            virtual bridge::Tool* generateTool() = 0;
         };
         class Aluminum : public Mold{
         public:
             Aluminum() : Mold("Aluminum"){}
             Aluminum(int c) : Mold("Aluminum", c){}
             virtual ~Aluminum(){ INSTRUMENT_DTOR }
-            virtual bridge::Tool* generateTool(string finish = ""){ return new bridge::HighCarbon; };
+            virtual bridge::Tool* generateTool(){ return new bridge::HighCarbon; };
 
         };
         class Steel : public Mold{
         public:
             Steel() : Mold("Steel"){}
-            Steel(int c) : Mold("Steel", c){}
             virtual ~Steel(){ INSTRUMENT_DTOR }
-            virtual bridge::Tool* generateTool(string finish){
-                if (finish == "satin"){
-                    return new bridge::Diamond_tipped;
-                }
-                else{
-                    return new bridge::Carbide;
-                }
-            };
+            virtual bridge::Tool* generateTool(){ return new bridge::Carbide; };
         };
-
 
 
         // Run sizes:
         //     10,000
         //     20,000
         //     50,000
-        //     40,000  (new)
-        //     100,000  (new)
-        //     200,000  (new)
-        //     400,000 defaults to 200, 000  (new)
         class AbstractFactory : public OriginOfEverything {
         public:
             AbstractFactory(string n) : OriginOfEverything(n){}
@@ -603,7 +454,6 @@ namespace final_design_file {
             unique_ptr<ConveyerBelt> pConveyerBelt;
             unique_ptr<PackageBin> pPackageBin;
             unique_ptr<Mold> pMold;
-            unique_ptr<factory_method::Stuffer> pStuffer;
             unique_ptr<factory_method::Packager> pPackager;
             virtual unique_ptr<AbstractFactory> buildFactory() = 0;
             void init(){
@@ -614,7 +464,6 @@ namespace final_design_file {
                 this->pMold.reset(pFactory->createMold());
             }
             void setPackager(factory_method::Packager* pP){ this->pPackager.reset(pP); }
-            void setStuffer(factory_method::Stuffer* pS) { this->pStuffer.reset(pS); }
         };
 
 
@@ -670,73 +519,7 @@ namespace final_design_file {
         };
 
         // Seam line - add another family.
-        // 40,000
-        class AF_40000 : public AbstractFactory {
-        public:
-            AF_40000() : AbstractFactory("AF_40000"){}
-            virtual ~AF_40000(){ INSTRUMENT_DTOR }
-            virtual IJM* createIjm(){ return new IJM_140; };
-            virtual ConveyerBelt* createConveyerBelt(){ return new V_Level; };
-            virtual PackageBin* createPackageBin(){ return new PallotBox; };
-            virtual Mold* createMold(){ return new Aluminum(4); };
-        };
-        class IL_40000 : public InjectionLine {
-        public:
-            IL_40000() : InjectionLine("IL_40000"){}
-            virtual ~IL_40000(){ INSTRUMENT_DTOR }
-            virtual unique_ptr<AbstractFactory> buildFactory(){ return unique_ptr<AbstractFactory>(new AF_40000); };
-        };
 
-        // 100,000
-        class AF_100000 : public AbstractFactory {
-        public:
-            AF_100000() : AbstractFactory("AF_100000"){}
-            virtual ~AF_100000(){ INSTRUMENT_DTOR }
-            virtual IJM* createIjm(){ return new IJM_220; };
-            virtual ConveyerBelt* createConveyerBelt(){ return new Y_Split; };
-            virtual PackageBin* createPackageBin(){ return new Crate; };
-            virtual Mold* createMold(){ return new Steel(2); };
-        };
-        class IL_100000 : public InjectionLine {
-        public:
-            IL_100000() : InjectionLine("IL_100000"){}
-            virtual ~IL_100000(){ INSTRUMENT_DTOR }
-            virtual unique_ptr<AbstractFactory> buildFactory(){ return unique_ptr<AbstractFactory>(new AF_100000); };
-        };
-
-        // 200,000
-        class AF_200000 : public AbstractFactory {
-        public:
-            AF_200000() : AbstractFactory("AF_200000"){}
-            virtual ~AF_200000(){ INSTRUMENT_DTOR }
-            virtual IJM* createIjm(){ return new IJM_240; };
-            virtual ConveyerBelt* createConveyerBelt(){ return new V_Level; };
-            virtual PackageBin* createPackageBin(){ return new Crate; };
-            virtual Mold* createMold(){ return new Steel(4); };
-        };
-        class IL_200000 : public InjectionLine {
-        public:
-            IL_200000() : InjectionLine("IL_200000"){}
-            virtual ~IL_200000(){ INSTRUMENT_DTOR }
-            virtual unique_ptr<AbstractFactory> buildFactory(){ return unique_ptr<AbstractFactory>(new AF_200000); };
-        };
-
-        // 400,000 - same behavior as 200,000(?)
-        //    class AF_400000 : public AbstractFactory {
-        //    public:
-        //        AF_400000() : AbstractFactory("AF_400000"){}
-        //        virtual ~AF_400000(){ INSTRUMENT_DTOR }
-        //        virtual IJM* createIjm(){ return new IJM_210; };
-        //        virtual ConveyerBelt* createConveyerBelt(){ return new Linear; };
-        //        virtual PackageBin* createPackageBin(){ return new PallotBox; };
-        //        virtual Mold* createMold(){ return new Steel; };
-        //    };
-        //    class IL_400000 : public InjectionLine {
-        //    public:
-        //        IL_400000() : InjectionLine("IL_400000"){}
-        //        virtual ~IL_400000(){ INSTRUMENT_DTOR }
-        //        virtual unique_ptr<AbstractFactory> buildFactory(){ return unique_ptr<AbstractFactory>(new AF_400000); };
-        //    };
     }
 
 
@@ -800,45 +583,6 @@ namespace final_design_file {
             virtual abstract_factory_solti::InjectionLine* create(int orderSize){
                 if (orderSize <= 50000){
                     return new abstract_factory_solti::IL_50000;
-                }
-                else{
-                    return InjectionLineCreator::create(orderSize);
-                }
-            }
-        };
-        class ILC_40000 : public InjectionLineCreator {
-        public:
-            ILC_40000() : InjectionLineCreator("ILC_40000"){}
-            virtual ~ILC_40000(){ INSTRUMENT_DTOR }
-            virtual abstract_factory_solti::InjectionLine* create(int orderSize){
-                if (orderSize <= 40000){
-                    return new abstract_factory_solti::IL_40000;
-                }
-                else{
-                    return InjectionLineCreator::create(orderSize);
-                }
-            }
-        };
-        class ILC_100000 : public InjectionLineCreator {
-        public:
-            ILC_100000() : InjectionLineCreator("ILC_100000"){}
-            virtual ~ILC_100000(){ INSTRUMENT_DTOR }
-            virtual abstract_factory_solti::InjectionLine* create(int orderSize){
-                if (orderSize <= 100000){
-                    return new abstract_factory_solti::IL_100000;
-                }
-                else{
-                    return InjectionLineCreator::create(orderSize);
-                }
-            }
-        };
-        class ILC_200000 : public InjectionLineCreator {
-        public:
-            ILC_200000() : InjectionLineCreator("ILC_200000"){}
-            virtual ~ILC_200000(){ INSTRUMENT_DTOR }
-            virtual abstract_factory_solti::InjectionLine* create(int orderSize){
-                if (orderSize <= 200000){ // use this to handle all orders larger than 100,000
-                    return new abstract_factory_solti::IL_200000;
                 }
                 else{
                     return InjectionLineCreator::create(orderSize);
@@ -911,39 +655,6 @@ namespace final_design_file {
                 return this->pWrapee->getTagContent().append("Date ");
             };
         };
-        class IncrementCounterDecorator : public TagDecorator {
-        public:
-            IncrementCounterDecorator(Tag* w) : TagDecorator("IncrementCounterDecorator", w){}
-            virtual ~IncrementCounterDecorator(){ INSTRUMENT_DTOR }
-            virtual int getTagLength(){
-                return 4 + this->pWrapee->getTagLength();
-            }
-            virtual string getTagContent(){
-                return this->pWrapee->getTagContent().append("IncCounter ");
-            };
-        };
-        class PartNumberDecorator : public TagDecorator {
-        public:
-            PartNumberDecorator(Tag* w) : TagDecorator("PartNumberDecorator", w){}
-            virtual ~PartNumberDecorator(){ INSTRUMENT_DTOR }
-            virtual int getTagLength(){
-                return 2 + this->pWrapee->getTagLength();
-            }
-            virtual string getTagContent(){
-                return this->pWrapee->getTagContent().append("PartNumber ");
-            };
-        };
-        class RecycleCodeDecorator : public TagDecorator {
-        public:
-            RecycleCodeDecorator(Tag* w) : TagDecorator("RecycleCodeDecorator", w){}
-            virtual ~RecycleCodeDecorator(){ INSTRUMENT_DTOR }
-            virtual int getTagLength(){
-                return 6 + this->pWrapee->getTagLength();
-            }
-            virtual string getTagContent(){
-                return this->pWrapee->getTagContent().append("RecycleCode ");
-            };
-        };
     }
 
     namespace template_method {	// DP 4.
@@ -978,7 +689,6 @@ namespace final_design_file {
                 LoadAdditiveBins(order);
                 RunTheInjectionCycleTillDone(order);
                 CleanTheMold(order);
-                ShipTheProducts(order);
             }
 
             virtual void SetupTheInjectionLine(map<string, string>& order){
@@ -990,7 +700,7 @@ namespace final_design_file {
                 //     1.5 If the plastic is unknown, default to ABS
                 //         1.5.1 cout << "  <>Unknown plastic |<unknown plastic>| defaulting to ABS.\n";
 
-                if (((order["plastic"] != "Nylon66") && (order["plastic"] != "Styrene") && (order["plastic"] != "ABS") && order["plastic"] != "ABS") && (order["plastic"] != "Polypropylene") && (order["plastic"] != "Polyethelene") && (order["plastic"] != "PET")){
+                if ((order["plastic"] != "ABS") && (order["plastic"] != "Polypropylene") && (order["plastic"] != "Polyethelene") && (order["plastic"] != "PET")){
                     cout << "  <>Unknown plastic |" << order["plastic"] << "| defaulting to ABS.\n";
                     order["plastic"] = "ABS";
                 }
@@ -999,20 +709,13 @@ namespace final_design_file {
                     cout << "  <>No size specified, defaulting to 100.\n";
                     order["size"] = "100";
                 }
-                else if (stoi(order["size"]) > 200000){
-                    cout << "  <>Size too large |" << order["size"] << "| defaulting to HugeOrder of 200000.\n";
-                    order["size"] = "200000";
-                }
                 int orderSize = stoi(order["size"]);
 
                 // create the IL line
                 unique_ptr<chain_of_resp::InjectionLineCreator> pILCHead = unique_ptr<chain_of_resp::InjectionLineCreator>(new chain_of_resp::ILC_10000);
                 pILCHead->addInjectionLine(new chain_of_resp::ILC_20000);
-                pILCHead->addInjectionLine(new chain_of_resp::ILC_40000);
                 pILCHead->addInjectionLine(new chain_of_resp::ILC_50000);
-                pILCHead->addInjectionLine(new chain_of_resp::ILC_100000);
-                pILCHead->addInjectionLine(new chain_of_resp::ILC_200000);
-
+                
                 pInjectionLine.reset(pILCHead->create(orderSize));
                 pInjectionLine->init();
 
@@ -1025,17 +728,13 @@ namespace final_design_file {
                 else if (order["plastic"] == "Polyethelene"){
                     pInjectionProcess.reset(new strategy::Poly(ceil(stoi(order["size"]) / pInjectionLine->pMold->cavity)));
                 }
-                else if ((order["plastic"] == "Styrene") || (order["plastic"] == "Nylon66")){
-                    pInjectionProcess.reset(new strategy::Synthetics(ceil(stoi(order["size"]) / pInjectionLine->pMold->cavity)));
-                }
                 else { // if (order["plastic"] == "PET"){
                     pInjectionProcess.reset(new strategy::PET(ceil(stoi(order["size"]) / pInjectionLine->pMold->cavity)));
                 }
 
                 pInjectionLine->setPackager(factory_method::Packager::createPackager(order));
-                pInjectionLine->setStuffer(factory_method::Stuffer::createStuffer(order));
                 cout << "  " << "Setup injection line for " << orderSize / pInjectionLine->pMold->cavity << " run with "
-                    << pInjectionLine->pPackager->getName() << " packager and " << pInjectionLine->pStuffer->getStuffing() << " stuffing:" << endl;
+                    << pInjectionLine->pPackager->getName() << " packager:" << endl;
 
                 cout << "    " << pInjectionLine->pIjm->getName()
                     << " - " << pInjectionLine->pMold->getName() << "(" << pInjectionLine->pMold->cavity << ")"
@@ -1053,43 +752,34 @@ namespace final_design_file {
                 //     12.3 Mill:
                 //         12.3.1 cout << "    Create <shape> mold from mill with <n> cavities:\n"
                 cout << "  Process order." << endl;
-                if ((order["moldLoc"] != "inventory") && (order["moldLoc"] != "mill") && (order["moldLoc"] != "sisterCompany") && (order["moldLoc"] != "purchase")){
+                if ((order["moldLoc"] != "inventory") && (order["moldLoc"] != "mill")){
                     cout << "    <>Can't find place |" << order["moldLoc"] << "| to get |" << order["mold"] << "| mold from, defaulting to duck from inventory.\n";
                     order["moldLoc"] = "inventory";
                 }
-                if ((order["mold"] != "duck") && (order["mold"] != "car") && (order["mold"] != "hero") && (order["mold"] != "dino")){
+                if ((order["mold"] != "duck") && (order["mold"] != "car") && (order["mold"] != "hero")){
                     order["mold"] = "duck";
                 }
-                if ((order["finish"] != "rippled") && (order["finish"] != "smooth") && (order["finish"] != "dimpled") && (order["finish"] != "sanded") && (order["finish"] != "satin")){
+                if ((order["finish"] != "rippled") && (order["finish"] != "smooth")){
                     order["finish"] = "smooth";
                 }
 
-                bridge::Tool* pTool = pInjectionLine->pMold->generateTool(order["finish"]);
-                if (order["mold"] == "duck"){
-                    pShape.reset(new bridge::Duck(pTool));
-                }
-                else if (order["mold"] == "car"){
-                    pShape.reset(new bridge::Car(pTool));
-                }
-                else if (order["mold"] == "dino"){
-                    pShape.reset(new bridge::Dino(pTool));
-                }
-                else { // if (shape == "hero"){
-                    pShape.reset(new bridge::Hero(pTool));
-                }
-
+                bridge::Tool* pTool = pInjectionLine->pMold->generateTool();
                 if (order["moldLoc"] == "mill"){
+                    if (order["mold"] == "duck"){
+                        pShape.reset(new bridge::Duck(pTool));
+                    }
+                    else if (order["mold"] == "car"){
+                        pShape.reset(new bridge::Car(pTool));
+                    }
+                    else { // if (shape == "hero"){
+                        pShape.reset(new bridge::Hero(pTool));
+                    }
                     cout << "    Create " << pShape->getName() << " mold from mill with " << pInjectionLine->pMold->cavity << " cavities:\n";
                     pShape->millTheShape(pInjectionLine->pMold->getName(), pInjectionLine->pMold->cavity, order["finish"]);
                 }
-                else if (order["moldLoc"] == "sisterCompany"){
-                    cout << "    Borrow " << pShape->getName() << " mold from sister company." << endl;
-                }
-                else if (order["moldLoc"] == "purchase"){
-                    cout << "    Acquire " << pShape->getName() << " mold via purchase." << endl;
-                }
                 else { // if(order["moldLoc"] == "inventory"){
                     cout << "    Pull " << order["mold"] << " mold from inventory.\n";
+                    pShape.reset(new bridge::Duck(pTool));
                 }
             }
 
@@ -1105,15 +795,6 @@ namespace final_design_file {
                 unique_ptr<decorator::Tag> pTag;
                 pTag.reset(new decorator::TagCore);
 
-                if (order["tags"].find("IncCounter") != string::npos){
-                    pTag.reset(new decorator::IncrementCounterDecorator(pTag.release()));
-                }
-                if (order["tags"].find("PartNumber") != string::npos){
-                    pTag.reset(new decorator::PartNumberDecorator(pTag.release()));
-                }
-                if (order["tags"].find("RecycleCode") != string::npos){
-                    pTag.reset(new decorator::RecycleCodeDecorator(pTag.release()));
-                }
                 if (order["tags"].find("ModelNumber") != string::npos){
                     pTag.reset(new decorator::ModelNumberDecorator(pTag.release()));
                 }
@@ -1123,7 +804,6 @@ namespace final_design_file {
                 if (order["tags"].find("Date") != string::npos){
                     pTag.reset(new decorator::DateDecorator(pTag.release()));
                 }
-
                 cout << "    Insert tags [" << pTag->getTagContent() << "] of width " << pTag->getTagLength() << "/20 mm.\n";
             }
 
@@ -1132,7 +812,7 @@ namespace final_design_file {
                 //     19.1 cout << "    Load plastic, color, and additive bins.\n;
                 //     19.2 cout << "      Recipe: <plastic>(<vol>) <color>(<vol>) <additive1>(<vol>) <additive2>(<vol>) Total = <vol>.\n";
                 cout << "    Load plastic, color, and additive bins.\n";
-
+                
                 // 18. Support six colors(for simplicity, assume volume is 10 % of shape, and die is independent of plastic type) :
                 //     18.0 black
                 //     18.1 brown
@@ -1158,10 +838,6 @@ namespace final_design_file {
                     cout << "AntiBacterial(" << order["AntiBacterial"] << ") ";
                     totalVol += stoi(order["AntiBacterial"]);
                 }
-                if (order.count("MicroFibers") != 0){
-                    cout << "MicroFibers(" << order["MicroFibers"] << ") ";
-                    totalVol += stoi(order["MicroFibers"]);
-                }
                 cout << "Total = " << totalVol * pInjectionLine->pMold->cavity << ".\n";
             }
 
@@ -1178,14 +854,12 @@ namespace final_design_file {
                 pInjectionLine->pPackageBin->attach(pInjectionLine->pIjm.get());
                 pInjectionLine->pPackageBin->attach(pInjectionLine->pConveyerBelt.get());
                 pInjectionLine->pPackageBin->attach(pInjectionLine->pPackager.get());
-                pInjectionLine->pPackageBin->attach(pInjectionLine->pStuffer.get());
                 pInjectionLine->pPackageBin->notifyFull();
                 pInjectionLine->pPackageBin->detach(pInjectionLine->pIjm.get());
                 pInjectionLine->pPackageBin->detach(pInjectionLine->pConveyerBelt.get());
                 pInjectionLine->pPackageBin->detach(pInjectionLine->pPackager.get());
-                pInjectionLine->pPackageBin->detach(pInjectionLine->pStuffer.get());
             }
-
+            
             virtual void CleanTheMold(map<string, string>& order){
                 // 23. Clean the molds, depends on plastic and metal :
                 //     23.1 Use existing cleaning methods(see namespace legacy)
@@ -1200,9 +874,6 @@ namespace final_design_file {
                 else if (order["plastic"] == "Polyethelene"){
                     pCleaner.reset(new adapter::PolyCleaner);
                 }
-                else if ((order["plastic"] == "Styrene") || (order["plastic"] == "Nylon66")){
-                    pCleaner.reset(new adapter::SynthesisCleaner);
-                }
                 else if (order["plastic"] == "PET"){
                     if (pInjectionLine->pMold->getName() == "Steel"){
                         pCleaner.reset(new adapter::PETSteelCleaner);
@@ -1215,9 +886,6 @@ namespace final_design_file {
                 pCleaner->clean();
             }
 
-            virtual void ShipTheProducts(map<string, string>& order){
-                cout << "    Ship to \"" << order["address"] << "\"" << endl;
-            }
 
             unique_ptr<abstract_factory_solti::InjectionLine> pInjectionLine;
             unique_ptr<bridge::Shape> pShape;
@@ -1282,8 +950,6 @@ namespace final_design_file {
             map<string, string> order = getCompleteOrder(orderFilePtr);
             if (order.size() == 0)
                 break;
-
-
             pIMF->process(order);
         }
     }
